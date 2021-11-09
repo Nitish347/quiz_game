@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:quiz_game/home.dart';
+import 'package:quiz_game/name_pagw.dart';
 import 'package:quiz_game/ttt.dart';
 void main() {
   runApp(MyApp());
@@ -8,7 +10,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
+
       title: 'Splash Screen',
       theme: ThemeData(
         primarySwatch: Colors.green,
@@ -31,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                New()
+                NamePage()
             )
         )
     );
