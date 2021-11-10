@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_game/home.dart';
 
 class NamePage extends StatelessWidget {
+  TextEditingController emailController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         body: ListView(
-          
           children: [
             Container(
               child: Image.asset("assets/quiz_pic.jpg"),
@@ -40,35 +41,71 @@ class NamePage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.tealAccent[200],
                 borderRadius: BorderRadius.circular(20),
-
               ),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                     hintText: "     Phone number,email or username",
                     hintStyle: TextStyle(color: Colors.black26),
                     border: InputBorder.none),
               ),
             ),
-            SizedBox(height: 50,),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.all(15.0),
-                margin: EdgeInsets.symmetric( horizontal: 130.0),
-
-                decoration: BoxDecoration(
-                    // gradient: LinearGradient(colors: [Colors.blue,Colors.tealAccent]),
-                    // border: Border.all(color: Colors.blue),
-                  color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20.0)),
-                child: Center(child: Text("Lets Start Quiz",style: TextStyle(color: Colors.white,fontSize: 15),)),
+            SizedBox(
+              height: 50,
+            ),
+            // InkWell(
+            //   onTap: () {},
+            //   child: Container(
+            //     padding: EdgeInsets.all(15.0),
+            //     margin: EdgeInsets.symmetric( horizontal: 130.0),
+            //
+            //     decoration: BoxDecoration(
+            //         // gradient: LinearGradient(colors: [Colors.blue,Colors.tealAccent]),
+            //         // border: Border.all(color: Colors.blue),
+            //       color: Colors.blue,
+            //         borderRadius: BorderRadius.circular(20.0)),
+            //     child: Center(child: Text("Lets Start Quiz",style: TextStyle(color: Colors.white,fontSize: 15),)),
+            //   ),
+            // ),
+            // Container(
+            //   color: Colors.tealAccent,
+            //
+            //   height: 50,
+            //   width: 20,
+            //   child: MaterialButton(
+            //       onPressed: () {
+            //         Navigator.pushReplacement(context,
+            //             MaterialPageRoute(builder: (context) {
+            //           return home();
+            //         }));
+            //       },
+            //       child: Text(
+            //         "Lets Start Quiz",
+            //         style: TextStyle(fontSize: 15),
+            //       )),
+            // ),
+            SizedBox(height: 30),
+            Container(
+                margin: EdgeInsets.only(bottom: 10.0, left: 130.0, right: 130.0),
+              // padding: EdgeInsets.only(left: 100,right: 100),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(15),
               ),
+
+              child: MaterialButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return home();
+                }));
+              },child: Text('Lets Start Quiz',style: TextStyle(fontSize: 15,color: Colors.white),)),
             ),
             SizedBox(
               height: 50,
             ),
-            Divider(thickness: 3,),
-
+            Divider(
+              thickness: 3,
+            ),
           ],
         ),
       ),
@@ -77,5 +114,6 @@ class NamePage extends StatelessWidget {
 }
 
 void main() {
-  runApp(NamePage());
+  // runApp(NamePage());
+  // print(emailController);
 }
