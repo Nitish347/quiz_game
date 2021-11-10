@@ -95,7 +95,7 @@ class NamePage extends StatelessWidget {
               ),
 
               child: MaterialButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
                   return home();
                 }));
               },child: Text('Lets Start Quiz',style: TextStyle(fontSize: 15,color: Colors.white),)),

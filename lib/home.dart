@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:quiz_game/body.dart';
 import 'package:quiz_game/progressibar.dart';
 
+import 'answer.dart';
+
 class home extends StatefulWidget {
   @override
   _homeState createState() => _homeState();
@@ -11,15 +13,16 @@ class _homeState extends State<home> {
   List<Icon> _scoreTracker = [Icon(Icons.check_circle,color: Colors.green,), Icon(Icons.clear,color: Colors.red,)];
   int _questionindex = 0;
   int _totalscore = 0;
+  var ques = questions[2]['question'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blueAccent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(40), top: Radius.circular(40))),
+                bottom: Radius.circular(80), top: Radius.circular(20))),
         title: Center(
           child: Text(
             "Quiz Game",
@@ -31,27 +34,31 @@ class _homeState extends State<home> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                children: [
-                  if (_scoreTracker.isEmpty)
-                    Container(
-                      height: 25,
-                    ),
-
-                  if (_scoreTracker.isNotEmpty) ..._scoreTracker
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     if (_scoreTracker.isEmpty)
+              //       Container(
+              //         height: 5,
+              //       ),
+              //
+              //     if (_scoreTracker.isNotEmpty) ..._scoreTracker
+              //   ],
+              // ),
+              SizedBox(height: 20,),
               Body(),
+              SizedBox(height: 20,),
               Container(
                 width: double.infinity,
                 height: 130.0,
                 margin: EdgeInsets.only(bottom: 10.0, left: 30.0, right: 30.0),
                 padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
                 decoration: BoxDecoration(
-                    color: Colors.blue[200],
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(10.0)),
-                child: Text('question''question'),
+                child: Center(child: Text('{$ques}',style: TextStyle(fontSize: 18,color: Colors.white),)),
               ),
+              // ...(questions[_questionindex]['answer'] as List<Map<String, Object>>).map((answer) => Answer(
+              //   answerText: answer['answerText'],))
               InkWell(
                 onTap: () {},
                 child: Container(
@@ -62,8 +69,9 @@ class _homeState extends State<home> {
                       color: null,
                       border: Border.all(color: Colors.blue),
                       borderRadius: BorderRadius.circular(20.0)),
-                  child: Text("answer"),
-                ),
+                  child: Text(
+                      "questions[0]['question']"
+                  ),),
               ),
               InkWell(
                 onTap: () {},
@@ -107,10 +115,11 @@ class _homeState extends State<home> {
               SizedBox(
                 height: 40,
               ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(minimumSize: Size(100, 40.0)),
-                  onPressed: () {},
-                  child: Text("next")),
+              MaterialButton(onPressed: (){
+                // Navigator.push(context, MaterialPageRoute(builder: (context){
+                //   return ;
+                // }));
+              },child: Text('NEXT',style: TextStyle(fontSize: 18,color: Colors.white),),color: Colors.blueAccent,),
               Container(
                 padding: EdgeInsets.all(40.0),
                 child: Text(
@@ -126,7 +135,7 @@ class _homeState extends State<home> {
   }
 }
 
-final _questions = const [
+final questions = const [
   {
     'question': 'How long is New Zealand’s Ninety Mile Beach?',
     'answers': [
