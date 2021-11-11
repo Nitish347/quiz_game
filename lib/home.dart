@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_game/body.dart';
 import 'package:quiz_game/progressibar.dart';
+import 'package:quiz_game/timer.dart';
+import 'dart:async';
 
 import 'answer.dart';
 
@@ -10,20 +12,55 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  List<Icon> _scoreTracker = [Icon(Icons.check_circle,color: Colors.green,), Icon(Icons.clear,color: Colors.red,)];
-  int _questionindex = 0;
-  int _totalscore = 0;
-  var ques = questions[2]['question'];
+  List<Icon> _scoreTracker = [];
+  static int _questionIndex = 0;
+  int _totalScore = 0;
+  bool choice = false;
+  static const maxSeconds = 15;
+  int seconds = maxSeconds;
+  Timer? timer;
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
+      setState(() {
+        if (seconds > 0) {
+          seconds--;
+        }
+      });
+    });
+  }
+
+
+  void resetTimer() {
+    seconds = 15;
+  }
+
+  void stopTimer() {
+    seconds = 0;
+  }
+  void next(){
+    if(seconds==0 && _questionIndex<8){
+      _questionIndex++;
+      choice = false;
+      resetTimer();
+    }
+  }
+
+  void _after(String score) {
+    setState(() {
+      choice = true;
+      if (score == 'true') _totalScore += 2;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(80), top: Radius.circular(20))),
-        title: Center(
+        title: const Center(
           child: Text(
             "Quiz Game",
             style: TextStyle(fontSize: 20),
@@ -44,98 +81,196 @@ class _homeState extends State<home> {
               //     if (_scoreTracker.isNotEmpty) ..._scoreTracker
               //   ],
               // ),
-              SizedBox(height: 20,),
-              Body(),
-              SizedBox(height: 20,),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              //**************************************************** Question Index ****************************************************************************
+              Stack(
+                children: [
+                  Column(
+                    children: [
+                      SafeArea(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 35),
+                          child: Container(
+                            width: double.infinity,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(0xFF3F4768), width: 3),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Stack(
+                              children: [
+                                LayoutBuilder(
+                                  builder: (context, constraints) => Container(
+                                    width:
+                                        constraints.maxWidth * (_questionIndex+1)/9,
+                                    decoration: BoxDecoration(
+                                        gradient: const LinearGradient(colors: [
+                                          Colors.cyan,
+                                          Colors.deepPurple
+                                        ]),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                  ),
+                                ),
+                                Center(
+                                  child: Text('${_questionIndex + 1}/9'),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              //*********************************************************** Timer ****************************************************************************
+              Column(
+                children: [
+                  buildTimer(),
+                  button(),
+                  // button1(),
+                ],
+              ),
+              //********************************************************* Quiz Part ****************************************************************************
+
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 width: double.infinity,
-                height: 130.0,
+                height: 100.0,
                 margin: EdgeInsets.only(bottom: 10.0, left: 30.0, right: 30.0),
                 padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
                 decoration: BoxDecoration(
                     color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(10.0)),
-                child: Center(child: Text('{$ques}',style: TextStyle(fontSize: 18,color: Colors.white),)),
+                child: Center(
+                    child: Text(
+                  _questions[_questionIndex]['question'].toString(),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                )),
               ),
-              // ...(questions[_questionindex]['answer'] as List<Map<String, Object>>).map((answer) => Answer(
-              //   answerText: answer['answerText'],))
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 30.0),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: null,
-                      border: Border.all(color: Colors.blue),
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Text(
-                      "questions[0]['question']"
-                  ),),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: null,
-                      border: Border.all(color: Colors.blue),
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Text("answer"),
+              ...(_questions[_questionIndex]['answers']
+                      as List<Map<String, Object>>)
+                  .map(
+                (answer) => Answer(
+                  answerText: answer['answerText'].toString(),
+                  answerColor: choice
+                      ? answer['score'] == true
+                          ? Colors.green
+                          : Colors.red
+                      : Colors.white,
+                  click: () {
+                    _after(answer['score'].toString());
+                  },
                 ),
               ),
-              InkWell(
-                onTap: () {},
+//**************************************************************** Next Button And Score  **********************************************************************
+              const SizedBox(
+                height: 20,
+              ),
+              MaterialButton(
+                onPressed: () {
+                  setState(() {
+                    if (_questionIndex < _questions.length - 1) {
+                      _questionIndex++;
+                      choice = false;
+                      resetTimer();
+                    }
+                    else{
+                      stopTimer();
+                    }
+                  });
+                },
+                child: const Text(
+                  'NEXT',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+                color: Colors.blueAccent,
+              ),
+
+              //   Text(
+              //   '0/9',
+              //   style: TextStyle(fontSize: 20),
+              // ),
+SizedBox(height: 10,),
+              Center(
                 child: Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: null,
-                      border: Border.all(color: Colors.blue),
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Text("answer"),
+                  decoration: const BoxDecoration(
+                      color: Colors.blueAccent, shape: BoxShape.circle),
+                  // color: Colors.blueAccent,
+                  height: 65,
+                  width: 65,
+                  child: Center(
+                      child: Text(
+                    "    $_totalScore\nScore",
+                    style: TextStyle(fontSize: 19, color: Colors.white),
+                  )),
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: null,
-                      border: Border.all(color: Colors.blue),
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Text("answer"),
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              MaterialButton(onPressed: (){
-                // Navigator.push(context, MaterialPageRoute(builder: (context){
-                //   return ;
-                // }));
-              },child: Text('NEXT',style: TextStyle(fontSize: 18,color: Colors.white),),color: Colors.blueAccent,),
-              Container(
-                padding: EdgeInsets.all(40.0),
-                child: Text(
-                  '0/9',
-                  style: TextStyle(fontSize: 20),
-                ),
-              )
+
             ],
           ),
         ),
       ),
     );
   }
+
+  Widget buildTimer() => SizedBox(
+      width: 120,
+      height: 120,
+      child: Stack(fit: StackFit.expand, children: [
+        Container(
+
+          margin: EdgeInsets.all(20),
+          child: CircularProgressIndicator(
+            value: seconds / maxSeconds,
+            strokeWidth: 5,
+            backgroundColor: Colors.red,
+            valueColor: AlwaysStoppedAnimation(Colors.blueAccent),
+          ),
+        ),
+        Center(
+          child: buildTime(),
+        )
+      ]));
+
+  Widget button() {
+    return MaterialButton(
+        onPressed: () {
+          if(_questionIndex==0){
+          startTimer();}
+        },
+        child: const Text(
+          'Start Quiz',
+          style: TextStyle(fontSize: 25, color: Colors.cyan),
+        ));
+  }
+
+  // Widget button1() {
+  //   return MaterialButton(
+  //       onPressed: () {
+  //         resetTimer();
+  //       },
+  //       child: const Text(
+  //         'Lets Start Quizfvdfbdbd',
+  //         style: TextStyle(fontSize: 10, color: Colors.cyan),
+  //       ));
+  // }
+
+  Widget buildTime() {
+    next();
+    return Text(
+      '$seconds',
+      style: const TextStyle(fontSize: 25, color: Colors.blueAccent),
+    );
+  }
 }
 
-final questions = const [
+final _questions = const [
   {
     'question': 'How long is New Zealand’s Ninety Mile Beach?',
     'answers': [
@@ -146,7 +281,7 @@ final questions = const [
   },
   {
     'question':
-    'In which month does the German festival of Oktoberfest mostly take place?',
+        'In which month does the German festival of Oktoberfest mostly take place?',
     'answers': [
       {'answerText': 'January', 'score': false},
       {'answerText': 'October', 'score': false},
@@ -171,7 +306,7 @@ final questions = const [
   },
   {
     'question':
-    'Which part of his body did musician Gene Simmons from Kiss insure for one million dollars?',
+        'Which part of his body did musician Gene Simmons from Kiss insure for one million dollars?',
     'answers': [
       {'answerText': 'His tongue', 'score': true},
       {'answerText': 'His leg', 'score': false},

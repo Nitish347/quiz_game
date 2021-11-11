@@ -2,9 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:quiz_game/home.dart';
 import 'package:quiz_game/name_pagw.dart';
-import 'package:quiz_game/ttt.dart';
+
 void main() {
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Container(
         color: Colors.white,
-        child:FlutterLogo(size:MediaQuery.of(context).size.height)
+        child:Image.asset('assets/quiz11.jpg')
     );
   }
 }

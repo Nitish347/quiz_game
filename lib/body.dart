@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Body extends StatelessWidget {
+
+class Body extends StatefulWidget {
   // var kDefaultPadding;
 
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -22,7 +28,7 @@ class Body extends StatelessWidget {
                     children: [
                       LayoutBuilder(
                         builder: (context, constraints) => Container(
-                          width: constraints.maxWidth * 0.7,
+                          width: constraints.maxWidth * 1,
                           decoration: BoxDecoration(
                               gradient: const LinearGradient(
                                   colors: [Colors.cyan, Colors.blueAccent]),

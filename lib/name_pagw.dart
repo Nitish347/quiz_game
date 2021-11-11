@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_game/home.dart';
 
-class NamePage extends StatelessWidget {
+class NamePage extends StatefulWidget {
+  @override
+  State<NamePage> createState() => _NamePageState();
+}
+
+class _NamePageState extends State<NamePage> {
   TextEditingController emailController = new TextEditingController();
+  var val=1;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+
+    return
+      MaterialApp(
+        debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: ListView(
           children: [
@@ -39,13 +49,13 @@ class NamePage extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 10.0, left: 20.0, right: 20.0),
 
               decoration: BoxDecoration(
-                color: Colors.tealAccent[200],
+                color: Colors.blueGrey[100],
                 borderRadius: BorderRadius.circular(20),
               ),
               child: TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                    hintText: "     Phone number,email or username",
+                    hintText: "     Enter Your Name",
                     hintStyle: TextStyle(color: Colors.black26),
                     border: InputBorder.none),
               ),
@@ -53,37 +63,6 @@ class NamePage extends StatelessWidget {
             SizedBox(
               height: 50,
             ),
-            // InkWell(
-            //   onTap: () {},
-            //   child: Container(
-            //     padding: EdgeInsets.all(15.0),
-            //     margin: EdgeInsets.symmetric( horizontal: 130.0),
-            //
-            //     decoration: BoxDecoration(
-            //         // gradient: LinearGradient(colors: [Colors.blue,Colors.tealAccent]),
-            //         // border: Border.all(color: Colors.blue),
-            //       color: Colors.blue,
-            //         borderRadius: BorderRadius.circular(20.0)),
-            //     child: Center(child: Text("Lets Start Quiz",style: TextStyle(color: Colors.white,fontSize: 15),)),
-            //   ),
-            // ),
-            // Container(
-            //   color: Colors.tealAccent,
-            //
-            //   height: 50,
-            //   width: 20,
-            //   child: MaterialButton(
-            //       onPressed: () {
-            //         Navigator.pushReplacement(context,
-            //             MaterialPageRoute(builder: (context) {
-            //           return home();
-            //         }));
-            //       },
-            //       child: Text(
-            //         "Lets Start Quiz",
-            //         style: TextStyle(fontSize: 15),
-            //       )),
-            // ),
             SizedBox(height: 30),
             Container(
                 margin: EdgeInsets.only(bottom: 10.0, left: 130.0, right: 130.0),
@@ -106,6 +85,7 @@ class NamePage extends StatelessWidget {
             Divider(
               thickness: 3,
             ),
+
           ],
         ),
       ),
