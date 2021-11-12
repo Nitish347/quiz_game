@@ -13,7 +13,7 @@ class Answer extends StatelessWidget {
     return InkWell(
       onTap: click,
       child:Container(
-        height: 50,
+        height: 55,
         padding: EdgeInsets.all(15.0),
             margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
             width: double.infinity,
