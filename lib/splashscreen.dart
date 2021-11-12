@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:quiz_game/home.dart';
-import 'package:quiz_game/name_pagw.dart';
+import 'package:quiz_game/LoginPage.dart';
+
+import 'login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                NamePage()
+                NamePage1()
             )
         )
     );

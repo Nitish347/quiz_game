@@ -104,7 +104,7 @@ class _homeState extends State<home> {
                                 LayoutBuilder(
                                   builder: (context, constraints) => Container(
                                     width:
-                                        constraints.maxWidth * (_questionIndex+1)/9,
+                                        constraints.maxWidth * (_questionIndex)/9,
                                     decoration: BoxDecoration(
                                         gradient: const LinearGradient(colors: [
                                           Colors.cyan,
@@ -115,7 +115,7 @@ class _homeState extends State<home> {
                                   ),
                                 ),
                                 Center(
-                                  child: Text('${_questionIndex + 1}/9'),
+                                  child: Text('${_questionIndex}/9'),
                                 )
                               ],
                             ),
@@ -136,9 +136,6 @@ class _homeState extends State<home> {
               ),
               //********************************************************* Quiz Part ****************************************************************************
 
-              const SizedBox(
-                height: 20,
-              ),
               Container(
                 width: double.infinity,
                 height: 100.0,
@@ -169,9 +166,7 @@ class _homeState extends State<home> {
                 ),
               ),
 //**************************************************************** Next Button And Score  **********************************************************************
-              const SizedBox(
-                height: 20,
-              ),
+
               MaterialButton(
                 onPressed: () {
                   setState(() {
@@ -196,7 +191,7 @@ class _homeState extends State<home> {
               //   '0/9',
               //   style: TextStyle(fontSize: 20),
               // ),
-SizedBox(height: 10,),
+
               Center(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -207,7 +202,7 @@ SizedBox(height: 10,),
                   child: Center(
                       child: Text(
                     "    $_totalScore\nScore",
-                    style: TextStyle(fontSize: 19, color: Colors.white),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   )),
                 ),
               ),
@@ -242,6 +237,8 @@ SizedBox(height: 10,),
     return MaterialButton(
         onPressed: () {
           if(_questionIndex==0){
+            _questionIndex++;
+            choice = false;
           startTimer();}
         },
         child: const Text(
@@ -272,6 +269,13 @@ SizedBox(height: 10,),
 
 final _questions = const [
   {
+    'question': '',
+    'answers': [
+      {'answerText': '', 'score': true},
+      {'answerText': '', 'score': false},
+      {'answerText': '', 'score': false},
+    ],
+  },{
     'question': 'How long is New Zealand’s Ninety Mile Beach?',
     'answers': [
       {'answerText': '88km, so 55 miles long.', 'score': true},
