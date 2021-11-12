@@ -79,20 +79,7 @@ class _NamePageState extends State<NamePage1> {
                             return home();
                           }));}
                         },child: Text('Lets Start Quiz',style: TextStyle(fontSize: 15,color: Colors.white),)),
-                        // ElevatedButton(
-                        //   onPressed: () {
-                        //
-                        //     if (_formKey.currentState!.validate()) {
-                        //       //
-                        //       // ScaffoldMessenger.of(context).showSnackBar(
-                        //       //   const SnackBar(content: Text('Processing Data')),
-                        //       // );
-                        //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                        //         return home();
-                        //       }));
-                        //     }
-                        //   },
-                        //     child: Text('Lets Start Quiz',style: TextStyle(fontSize: 15,color: Colors.white),)),
+
                       ),
                       // Add TextFormFields and ElevatedButton here.
                     ],
@@ -100,15 +87,13 @@ class _NamePageState extends State<NamePage1> {
                 )
                 ),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
-            SizedBox(height: 30),
-
-            SizedBox(
-              height: 50,
-            ),
-            Divider(
-              thickness: 3,
+            // SizedBox(height: 30),
+            Container(
+              height: 150,
+              // color: Colors.blue,
+              child: Image.asset('assets/quiz5.png'),
             ),
           ],
         ),

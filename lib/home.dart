@@ -247,16 +247,6 @@ class _homeState extends State<home> {
         ));
   }
 
-  // Widget button1() {
-  //   return MaterialButton(
-  //       onPressed: () {
-  //         resetTimer();
-  //       },
-  //       child: const Text(
-  //         'Lets Start Quizfvdfbdbd',
-  //         style: TextStyle(fontSize: 10, color: Colors.cyan),
-  //       ));
-  // }
 
   Widget buildTime() {
     next();
